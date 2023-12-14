@@ -1,0 +1,214 @@
+file - new spring legacy project - name 입력- spring MVC Project선택 - 팝업창 yes
+com.ezen.www입력 (도메인 역순)
+
+window - preferences
+-> enc검색 utf-8 (jsp와 같음)
+-> java -> installed - jdk11
+-> server -> runtime - > add - apache9.0 - 브라우저 - 톰캣 폴더
+-> web browser - use external - chrome
+-> run/debug -> console 100000
+
+밑에 Servers
+초록색깔 삭제 new server -> tomcat -> 프로젝트 add 
+overview - port 8088 
+modules - edit - path / 로 설정
+
+프로젝트 설정
+- jsp 때랑 똑같이 jdk 11로 설정
+
+
+tayget폴더 - pom.xml에서
+<java-version>11</java-version>
+<org.springframework-version>5.3.10</org.springframework-version>
+
+스크롤 내려서
+ <configuration>
+                    <source>11</source>
+                    <target>11</target> (11로 변경)
+
+(	<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+	</dependency>     ) 를 밑에껄로 변경
+
+<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>4.0.1</version>
+		    <scope>provided</scope>
+		</dependency>
+
+
+마지막 디펜던시 밑에 lombok디펜더시 추가
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.30</version>
+		    <scope>provided</scope>
+		</dependency>
+
+		<!-- java -->
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.28</version>
+		</dependency>
+		
+		
+		<!-- DB -->
+		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+		<dependency>
+		    <groupId>org.mybatis</groupId>
+		    <artifactId>mybatis</artifactId>
+		    <version>3.5.10</version>
+		</dependency>
+
+spring-security-core 5.5.3
+spring-security-config 5.5.3
+spring-security-web 5.5.3 
+(mvn에서 찾아서 똑같이 복붙)
+위로 올라와서 <org.springframework.security-version>5.5.3</org.springframework.security-version>{1.6.6 밑에 입력}
+
+spring jdbc 5.3.10
+sprinh test 5.3.10 (똑같음)
+
+
+프로젝트 선택 - maven - update...
+web.xml에
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+	</context-param>
+	
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- Processes application requests -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<filer>
+		<filter-name>encoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name></param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filer>
+	
+	<filter-mapping>
+		<filter-name>encoding</filter-name>
+		<url-pattern></url-pattern>
+	</filter-mapping>
+</web-app>
+
+입력
+
+
+-root-context.xml에
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+			<property name="driverClassName" value="co,.mysql.cj.jdbc.Driver"></property>
+			<property name="url" value="jdbc:mysql://localhost:3306/springtest"></property>
+			<property name="username" value="springUser"></property>
+			<property name="password" value="mysql"></property>
+		</bean>
+		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+  			<property name="dataSource" ref="dataSource" />
+  			<property name="mapperLocations" ref="classpath:mappers/**/*Mapper.xml" />
+		</bean>
+		<mybatis-spring:scan base-package="com.ezen.www.repository"/>
+</beans>
+
+입력
+
+
+DB설정
+db명 : springtset
+
+
+
+
+spring 폴더에서 컨트롤+n spring ->spring Bean Configuration file -> beans,security선택 (beans에서 밑에 첫번째꺼 클릭)
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.5.xsd">
+
+	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+	
+	</bean>
+
+</beans>
+입력
+
+web.xml에 돌아와서
+<param-value>
+/WEB-INF/spring/appServlet/servlet-context.xml
+/WEB-INF/spring/appServlet/security-context.xml (<-이 줄 추가 security이건 위에서 만든 폴더 이름임 오타나면 안됨)
+</param-value>
+
+
+
+//워크벤치 들어가서 위 쪽에 통모양+ 클릭 Name : springtest ->apply->apply
+//Administration클릭 user and privileges클릭 
+
+
+
+
+------------------패키지---------------------
+com.ezen.www에 컨트롤+n 패키지
+com.ezen.www.controller (자동생성된home 컨트롤러 여기에 옮겨넣기)
+com.ezen.www.doamin
+com.ezen.www.repository
+com.ezen.www.service
+
+src/main/resources에 폴더 생성 (폴더명:mappers -> root-context.xml에 적힌 이름이랑 같아야함)
+
+domain에 BoardVO생성 sql에 넣은 거 변수 설정
+public위에 (lombok이 getter,setter 자동으로 생성해줌)
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor (다 있는 생성자)
+@NoArgsConstructor (아무것도 없는 생성자)

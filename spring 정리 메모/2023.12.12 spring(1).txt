@@ -1,0 +1,19 @@
+spring 사용 프로그램 
+
+-sts- => eclips 확장팩으로 별도 프로그램으로 제공됨
+	-> 스프링 공식 사이트
+	- projects - Spring tools4 -Spring Tools 4 for Eclipse 4.21.0 이지만 스크롤 마지막으로 내려서 3제공 사이트 클릭
+	우리는 Spring Tool Suite 3 3.9.18 - full distribution on Eclipse 4.21 - win32-x86다운
+
+-mavenrepository (mvn) --> jar다운 대신 maven 복사해서 사용함
+
+lombok 1.18.30 (getter,setter를 만들어주는 것 정확한 건 다시 찾아서 정리하기)
+(lombok은 한글 경로를 인식하지 못함) 프로그램 바뀌면 lombok도 새로 깔아야함
+
+lombok 더블클릭 -> 경로설정 ( sts파일 선택) -> quit-- -> spring 파일에 lombok.zar 있는지 확인 (STS.ini에 javaagent에 경로 맞는지 확인)
+
+실행안되면 ) java11 파일 -> bin -> javaw.exe 경로 가져와서 STS.ini 
+openFile
+밑에
+-vm
+C:\Program Files\Java\jdk-11\bin\javaw.exe (java.exe에서 가져온 경로임) 입력 후 저장
