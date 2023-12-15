@@ -1,0 +1,31 @@
+nav바 footer알아서 부트스트랩에서 가져오기
+
+컨트롤러단에 BoardController 만들기
+public 위에 @Controller (spring이 제공하는 걸로 import) -> jsp에서 서블릿과 같은 기능을 만들어줌
+@RequestMapping("/board/*") -> 경로지정 (jsp와 다르게 jsp경로와 이름 같은 걸 추천) (자세히 다시 알아보기)
+@Slf4j (로고 찍는거)
+
+클래스 안에 
+private BoardService bsv; 위에 @Inject
+
+Impl은 이제 직접 설정해야함 ! 직접 implements 서비스 연결 시키기 (까먹지 말기!)
+얘도 위에 @service (이런 역할을 하고 있어요 알려주는 것.)
+이제 DAOimpl은 만들지 않음 interface만 생성 
+
+
+
+-------jsp-----------
+
+board 폴더 만들기
+board폴더 안에 register.jsp 생성
+<jsp:include page="../layout/header.jsp"></jsp:include> 헤더 푸터 위 아래로 붙이기
+c태그 라이브러리 추가
+
+헤더 푸터 부분 지우기
+
+
+
+
+-----mapper-----
+첫 화면 설정 => my batis 시작하기에서 mapper부분 가져와서 복붙
+namespace => dao가 있는 패키지 이름 가져오고 뒤에 .메퍼네임 붙이기
