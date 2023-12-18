@@ -36,10 +36,18 @@ public class BoardServiceImpl implements BoardService{
 		return bdao.selectDetail(bno);
 	}
 
+
+
 	@Override
-	public int modify(int bno) {
-		// TODO Auto-generated method stub
-		return bdao.modify(bno);
+	public void update(BoardVO bvo) {
+		bdao.update(bvo);
+
 	}
+
+	@Override
+	public int remove(int bno) {
+		return bdao.delete(bno);
+	}
+
 	
 }

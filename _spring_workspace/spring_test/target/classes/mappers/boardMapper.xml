@@ -21,8 +21,13 @@
 	update board set read_count=read_count+1 where bno=#{bno}
 </update>
 
-<update id="modify" parameterType="com.ezen.www.domain.BoardVO">
-	update board set title=#{title}, content=#{content} where bno = #{bno}
+<update id="update">
+	update board set title=#{title}, content=#{content},reg_date=now(), read_count=read_count-2 where bno = #{bno}
+</update>
+
+<update id="delete">
+	<!-- delete from board where bno = #{bno} -->
+	update board set isDel ='Y' where bno = #{bno}
 </update>
 
 </mapper>

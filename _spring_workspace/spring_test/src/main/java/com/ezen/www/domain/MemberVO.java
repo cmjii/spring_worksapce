@@ -6,19 +6,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
+
 @AllArgsConstructor
 @NoArgsConstructor
-public class BoardVO {
-	
-	private int bno;
-	private String title;
-	private String writer;
-	private String content;
-	private String isDel;
+@Setter
+@ToString
+@Getter
+public class MemberVO {
+
+	private String id;
+	private String pw;
+	private String name;
+	private String email;
+	private String home;
 	private String reg_date;
-	private int read_count;
+	private String last_login;
+	private int age;
 	
 }

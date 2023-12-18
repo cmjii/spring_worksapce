@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ezen.www.domain.BoardVO;
 import com.ezen.www.service.BoardService;
@@ -55,10 +56,23 @@ public class BoardController {
 	}
 	
 	@PostMapping("/modify")
-	public String modify(BoardVO bvo,Model m, @RequestParam("bno") int bno) {
+	public String modify(BoardVO bvo, Model m) {
 		log.info("bvo : ",bvo);
-		//update
-		int isok = bsv.modify(bno);
-		return "redirect:/board/detail"; //bno필요
+		bsv.update(bvo);
+		//m.addAttribute("bno",bvo.getBno()); -> 이 버전으로도 처리 가능
+		return "redirect:/board/detail?bno="+bvo.getBno(); 
 	}
+	
+	@GetMapping("/remove")
+	public String remove(@RequestParam("bno") int bno, RedirectAttributes re) {
+		log.info("bno : ",bno);
+		int isok = bsv.remove(bno);
+		//페이지가 새로고침 될 때 남아있을 필요가 없는 데이터 
+		//리다이렉트 될 때 데이터를 보내는 객체 (RedirectAttributes)
+		re.addFlashAttribute("isDel",isok);//한번만 데이터를 일시적으로 보내는 객체
+		//위에 re객체를 보냈을 때 받는 것은 밑에 리턴 값임 바로 jsp로 보내고 싶다면 model사용이 아닌 redirect를 사용
+		return "redirect:/board/list";
+	}
+	
+
 }
