@@ -1,0 +1,39 @@
+test하는법
+
+src/test/java
+에서 com.ezen.www패키지 생성
+BoaardTest 클래스 생성
+
+프로젝트 오른쪽 클릭 properties-> java build path -> classPath -> add library -> junit
+next-> junit4 -> finish
+
+BoardTest클래스에서 메서드 위에 
+@Slf4j
+@RunWith(SpringJUnit4ClassRunner.class) //테스트 할 때 필수
+@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")//root context경로
+
+
+public class BoardTest {
+	
+	@Inject
+	private BoardDAO bdao; //여기서 DAO객체 하나 생성해주세여
+	
+	@Test
+	public void insertboard() {
+		log.info("Test Insert in : ");
+		
+		for(int i =0; i<300; i++) {
+			BoardVO bvo = new BoardVO();
+			bvo.setTitle("Test Title" +i);
+			bvo.setWriter("Tester");
+			bvo.setContent("Test Content" +i);
+			
+			bdao.insert(bvo);
+		}
+		
+	}
+	
+}
+
+
+페이지네이션 만들기 (정확히 이해해보기!)
