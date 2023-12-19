@@ -18,7 +18,11 @@
 	</update>
 	
 	<update id="update">
-		update member set id=#{id}, pw=#{pw}, name=#{name}, email=#{email}, home = #{home}, age=#{age} where id=#{id}
+		update member set pw=#{pw}, name=#{name}, email=#{email}, home = #{home}, age=#{age} where id=#{id}
 	</update>
+
+	<delete id="remove">
+		delete from member where id=#{id}
+	</delete>
 
 </mapper>

@@ -27,7 +27,32 @@
     </c:forEach>
   </tbody>
 </table>
+
+<nav aria-label="Page navigation example">
+<!-- 이전라인 if -->
+  <ul class="pagination justify-content-center">
+	<c:if test="${ph.prev }">
+    <li class="page-item">
+      <a class="page-link" href="/board/list?pageNo=${ph.startPage-1 }&qty=${ph.pgvo.qty}">이전</a>
+    </li>
+    </c:if>
+    <!-- 페이지번호라인 for문 -->
+    <c:forEach begin="${ph.startPage }" end="${ph.endPage }" var="i">
+    <li class="page-item"><a class="page-link" href="/board/list?PageNo=${i }&qty=${ph.pgvo.qty}">${i }</a></li>
+    </c:forEach>
+
+    <!-- 다음라인 if -->
+	<c:if test="${ph.next }">
+    <li class="page-item">
+      <a class="page-link" href="/board/list?pageNo=${ph.endPage+1 }&qty=${ph.pgvo.qty}">Next</a>
+    </li>
+  </c:if>
+  </ul>
+</nav>
+
 </div>
+
+
 <script>
 	const isDel = `<c:out value="${isDel}" />`;
 	if(isDel ==1){

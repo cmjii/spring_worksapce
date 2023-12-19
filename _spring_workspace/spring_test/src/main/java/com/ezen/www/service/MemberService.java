@@ -1,5 +1,7 @@
 package com.ezen.www.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.ezen.www.domain.MemberVO;
 
 public interface MemberService {
@@ -10,7 +12,9 @@ public interface MemberService {
 
 	void lastLogin(String id);
 
-	void update(MemberVO mvo);
+	int update(MemberVO mvo);
+
+	int remove(MemberVO mvo);
 
 
 }

@@ -1,6 +1,9 @@
 package com.ezen.www.service;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,7 +19,10 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Inject
 	private MemberDAO mdao;
-
+	
+	@Inject
+	HttpServletRequest request;
+	
 	@Inject
 	BCryptPasswordEncoder passwordEncoder; //암호화 하는 객체
 	
@@ -81,14 +87,26 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void update(MemberVO mvo) {
-		log.info("pw :", mvo.getPw());
-		log.info("name :", mvo.getName());
-		if(mvo.getPw() == null) {
-			
+	public int update(MemberVO mvo) {
+		//pw의 여부에 따라서 변경사항을 나누어 처리
+		//pw가 없다면 기존값으로 설정 / pw가 있다면 암호화 처리하여 변경
+		if(mvo.getPw() == null || mvo.getPw().length()==0) {
+			MemberVO sesMvo = (MemberVO) request.getSession().getAttribute("ses"); //HttpServletRequest request는 위에 의존성 주입으로 추가 (컨트롤러도 마찬가지)
+			mvo.setPw(sesMvo.getPw());
+		}else {
+			String setpw = passwordEncoder.encode(mvo.getPw());
+			mvo.setPw(setpw);
 		}
-		mdao.update(mvo);
+		log.info("수정 후 mvo : {}",mvo);
 		
+		return mdao.update(mvo);
+		
+	}
+
+	@Override
+	public int remove(MemberVO mvo) {
+		
+		return mdao.remove(mvo);
 	}
 
 	

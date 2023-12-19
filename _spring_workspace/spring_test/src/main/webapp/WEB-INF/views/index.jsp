@@ -29,6 +29,14 @@
 	if(join ==='2'){
 		alert("회원가입 성공");
 	}
+	const msg_modify = `<c:out value="${msg_modify}"/>`;
+	if(msg_modify ==='1'){
+		alert("수정 성공 다시 로그인해주세요.");
+	}
+	const msg_remove = `<c:out value="${msg_remove}"/>`;
+	if(msg_remove ==='1'){
+		alert("회원 탈퇴 성공");
+	}
 	const msg_logout = `<c:out value="${msg_logout}"/>`;
 	if(msg_logout ==='1'){
 		alert("로그아웃 성공");

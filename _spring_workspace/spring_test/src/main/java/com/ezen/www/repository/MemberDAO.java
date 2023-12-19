@@ -10,6 +10,8 @@ public interface MemberDAO {
 
 	void lastLogin(String id);
 
-	void update(MemberVO mvo);
+	int update(MemberVO mvo);
+
+	int remove(MemberVO mvo);
 
 }

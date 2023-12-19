@@ -11,7 +11,7 @@
   <span class="input-group-text" id="basic-addon1">아이디</span>
   <input type="text" class="form-control" name="id" value="${ses.id }" readonly="readonly">
   <span class="input-group-text" id="basic-addon1" >비밀번호</span>
-  <input type="text" name="pw" class="form-control">
+  <input type="password" placeholder="password" name="pw" class="form-control">
 </div>
 <div class="input-group mb-3">
   <span class="input-group-text" id="basic-addon1">이름</span>
@@ -30,8 +30,9 @@
   <input type="text" class="form-control" name="last_login" value="${ses.last_login }" >
 </div>
 
-<a href="#"><button type="button" class="btn btn-warning">취소</button></a>
+<a href="/"><button type="button" class="btn btn-warning">취소</button></a>
 <button type="submit" class="btn btn-success">수정</button>
+<a href="/member/remove"><button type="button" class="btn btn-danger">회원탈퇴</button></a>
 </form>
 </div>
 

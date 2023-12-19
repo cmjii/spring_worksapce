@@ -1,6 +1,5 @@
 package com.ezen.www.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ezen.www.domain.MemberVO;
 import com.ezen.www.service.MemberService;
@@ -24,6 +24,9 @@ public class MemberController {
 	
 	@Inject
 	private MemberService msv;
+	
+	@Inject
+	HttpServletRequest request;
 	
 	@GetMapping("/register")
 	public void register() {}
@@ -77,16 +80,25 @@ public class MemberController {
 	}
 	
 	@GetMapping("/modify")
-	public void modify() {
-	}
+	public void modify() {}
 	
 	@PostMapping("/edit")
-	public String edit(MemberVO mvo, HttpServletRequest request) {
+	public String edit(MemberVO mvo, RedirectAttributes re) { //modify랑 똑같이 이름 설정해도 됨
 		log.info("mvo : ",mvo);
-		msv.update(mvo);
-		HttpSession ses = request.getSession();
-		ses.setAttribute("ses", mvo);
-		return "redirect:/member/modify";
+		int isok = msv.update(mvo);
+		log.info("edit : ",(isok>0? "ok":"fail"));
+		re.addFlashAttribute("msg_modify","1");
+		return "redirect:/member/logout";
+	}
+	
+	@GetMapping("/remove")
+	public String remove(RedirectAttributes re) {
+		MemberVO mvo = (MemberVO) request.getSession().getAttribute("ses");
+		//String id = mvo.getId();
+		//msv.remove(id); => ses에서 id만 빼와서 id만 전달 후 사용
+		msv.remove(mvo);
+		re.addFlashAttribute("msg_remove", "1");
+		return "redirect:/member/logout";
 	}
 	
 }
