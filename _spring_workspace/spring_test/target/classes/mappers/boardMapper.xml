@@ -10,7 +10,7 @@
 </insert>
 
 <select id="selectList" resultType="com.ezen.www.domain.BoardVO">
-	select * from board where isDel = 'N' order by bno desc limit #{pageStart}, #{qty}
+	select * from board where isDel = 'N' <include refid="search"></include>  order by bno desc limit #{pageStart}, #{qty}
 </select>
 
 <select id="selectDetail" resultType="com.ezen.www.domain.BoardVO">
@@ -31,7 +31,35 @@
 </update>
 
 <select id="getTotalCount" resultType="int">
-	select count(bno) from board where isDel = 'N'
+	select count(bno) from board where isDel = 'N' <include refid="search"></include> 
 </select>
+
+<!--  selcet*from board where isDel='N' and (..or..or..) -->
+ <!-- 동시 검색을 위해서 배열과 반복문 사용 --> <!-- title,content,writer만 검색할거면 필요없다 -->
+ <!--suffixOverrides="or" 뒤에 있는 or을 지워줘 라는 뜻 -->
+<!-- 동적쿼리 사용법 -->
+<sql id="search">
+	<if test="type != null">
+		<trim prefix="and (" suffix=")" suffixOverrides="or"> 
+			<foreach collection="typeToArray" item="type"> 
+				<trim suffix="or">
+					<choose>
+						<when test="type=='t'.toString()">
+							title like concat('%',#{keyword},'%')
+						</when>
+						<when test="type=='w'.toString()">
+							writer like concat('%',#{keyword},'%')
+						</when>
+						<when test="type=='c'.toString()">
+							content like concat('%',#{keyword},'%')
+						</when>
+					</choose>				
+				</trim>
+			</foreach>
+		</trim>	
+	</if>
+</sql>
+
+
 
 </mapper>

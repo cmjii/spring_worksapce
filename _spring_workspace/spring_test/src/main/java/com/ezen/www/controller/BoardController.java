@@ -50,7 +50,7 @@ public class BoardController {
 		m.addAttribute("list", bsv.getList(pgvo)); //여기서 add가 set이랑 같은 뜻. 보드서비스에서 리스트를 갖고오면 그걸 "list"에 넣어줘 "lis" 는 리턴값으로 넘어감
 		
 		//paginghandler 객체 다시 생성 (pgvo, totalCount)
-		int totalCount = bsv.getTotalCount();
+		int totalCount = bsv.getTotalCount(pgvo);
 		PagingHandler ph = new PagingHandler(pgvo, totalCount);
 		m.addAttribute("ph", ph);
 		return "/board/list";
