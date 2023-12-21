@@ -9,7 +9,6 @@ reg_date datetime default now(),
 primary key(cno));
 
 
-미션!~
-페이지네이션 완벽 이해!
-스프링 강의 듣기
-자바스크립트 강의 듣기!
+json 라이브러리 추가
+jackson-databind 2.13.0
+jackson.dataformat 2.13.0
