@@ -62,3 +62,18 @@ CREATE TABLE comment (
     reg_date DATETIME DEFAULT now(),
     PRIMARY KEY (cno)
 );
+
+
+- 2023.12.26 -
+file table
+
+CREATE TABLE file (
+    uuid VARCHAR(256) NOT NULL,
+    save_dir VARCHAR(256) NOT NULL,
+    file_name VARCHAR(256) NOT NULL,
+    file_type TINYINT(1) DEFAULT 0,
+    bno INT,
+    file_size INT,
+    reg_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (uuid)
+);
