@@ -1,0 +1,48 @@
+-- file upload --
+1. 파일에 대한 라이브러리 추가 (pom.xml에 dependency복사 붙여넣기)
+commons-fileupload1.4
+commons-io 2.11.0
+thumbnailator 0.4.14
+tika-core 2.4.1 => 파일에 대한 종류를 확인할 때 사용(그림파일인지 체크)
+tika-parsers 2.4.1
+
+- 파일 저장 폴더 구성
+-d드라이브에 _myProject생성 안에 _java폴더 생성 안에 _fileUpload생성
+D:\_myProject\_java\_fileUpload
+
+2. 파일에 대한 설정 
+(1)web.xml (servlet 안 쪽에 작성 기존 servlet맨 끝 구문 뒤에 작성)
+ - multipart-config 설정
+ - location : 파일경로
+ - max-file-size : 업로드 되는 파일의 max크기 20메가 (1024*1024*20 = 20971520)
+ - max-request-size : 요청 최대 크기 40메가 (업로드 파일에 2배로 보통 설정) (1024*1024*40 =41943040)
+ - file-size-threshold : 임시 기록 용량 보통 max파일 사이즈와 동일
+	<multipart-config>
+		<location>D:\_myProject\_java\_fileUpload</location>
+		<max-file-size>20971520</max-file-size>
+		<max-request-size>41943040</max-request-size>
+		<file-size-threshold>20971520</file-size-threshold>
+	</multipart-config>
+
+(2)servlet-context.xml 경로
+ - <resources mapping="/upload/**" location="file:///D:\_myProject\_java\_fileUpload" />
+ - <beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></beans:bean>	
+
+3.file 테이블 생성
+
+CREATE TABLE file (
+    uuid VARCHAR(256) NOT NULL,
+    save_dir VARCHAR(256) NOT NULL,
+    file_name VARCHAR(256) NOT NULL,
+    file_type TINYINT(1) DEFAULT 0,
+    bno INT,
+    file_size INT,
+    reg_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (uuid)
+);
+
+4.fileVO생성 (file hadler생성)
+
+5.BoardVO / FileVO => BoardDTO생성
+
+board register.jsp에서 file입력 라인 추가
