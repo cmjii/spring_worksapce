@@ -11,7 +11,7 @@ public interface BoardDAO{
 
 	List<BoardVO> selectList(PagingVO pgvo);
 
-	BoardVO selectDetail(int bno);
+	BoardVO getDetail(int bno);
 
 	int readcountUpdate(int bno);
 
@@ -20,6 +20,8 @@ public interface BoardDAO{
 	int delete(int bno);
 
 	int getTotalCount(PagingVO pgvo);
+
+	int selectBno();
 
 
 	

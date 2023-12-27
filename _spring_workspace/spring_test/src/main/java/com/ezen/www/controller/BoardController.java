@@ -4,15 +4,21 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ezen.www.domain.BoardDTO;
 import com.ezen.www.domain.BoardVO;
 import com.ezen.www.domain.FileVO;
 import com.ezen.www.domain.PagingVO;
@@ -48,9 +54,13 @@ public class BoardController {
 		if(files[0].getSize()>0) { //file배열의 길이를 볼 경우엔 null이나 빈 객체가 들어와서 길이가 잡히는 경우가 있어 더 정확한 방법을 사용하는 것
 			flist = fhd.uploadFiles(files);
 			log.info("flist : "+flist);
+		}else {
+			log.info("file null");
 		}
+		BoardDTO bdto= new BoardDTO(bvo,flist);
 		
-		//int isok = bsv.register(bvo);
+		int isok = bsv.register(bdto);
+		log.info("register : "+(isok>0? "ok":"fail"));
 		//목적지 경로 =destpage 똑같이 register.jsp로 갈거니까 이름이 같으니 생략가능 자동으로 옮겨줌
 		return "redirect:/board/list"; //바로 리스트로 보내면 초기화 된 리스트 화면이 나옴 redirect를 사용하면 내부 로직을 한번 돈 후에 옮겨짐
 								//mapping list로 가는거! 밑에 getMapping(list) 그래서 로직을 도는 거임 jsp로 가는 것이 아님.
@@ -75,7 +85,9 @@ public class BoardController {
 	@GetMapping({"/detail","/modify"}) //여러개 가능
 	public void detail(Model m, @RequestParam("bno") int bno) {
 		log.info("bno >>{}"+bno);
-		m.addAttribute("bvo", bsv.getDetail(bno));
+		//파일 내용도 포함해서 같이 보내기
+		
+		m.addAttribute("boardDTO", bsv.getDetail(bno));
 	}
 	
 	@PostMapping("/modify")
@@ -95,6 +107,13 @@ public class BoardController {
 		re.addFlashAttribute("isDel",isok);//한번만 데이터를 일시적으로 보내는 객체
 		//위에 re객체를 보냈을 때 받는 것은 밑에 리턴 값임 바로 jsp로 보내고 싶다면 model사용이 아닌 redirect를 사용
 		return "redirect:/board/list";
+	}
+	
+	@DeleteMapping(value="/{uuidVal}",produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> delete(@PathVariable("uuidVal")String uuid){
+		log.info("uuid:" + uuid);
+		int isok = bsv.fileremove(uuid);
+		return isok>0? new ResponseEntity<String>("1",HttpStatus.OK):new ResponseEntity<String>("0",HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 

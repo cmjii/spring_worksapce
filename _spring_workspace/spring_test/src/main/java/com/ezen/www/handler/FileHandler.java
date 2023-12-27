@@ -43,7 +43,7 @@ public class FileHandler {
 		//폴더 생성
 		File folders = new File(UP_DIR, today);
 		if(!folders.exists()) { //exists 있는지 체크
-			folders.mkdirs(); //폴더 생성 명령 mkdir(폴더 1개 생성)
+			folders.mkdirs();//폴더 생성 명령 mkdir(폴더 1개 생성)
 		}
 		
 		//리스트 설정
