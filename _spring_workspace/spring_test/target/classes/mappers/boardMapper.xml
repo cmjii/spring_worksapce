@@ -39,6 +39,14 @@
 	<!-- select bno from board order by bno desc limit 0 -->
 </select>
 
+<!-- bno가 일치하는 comment의 count를 세어서 commentCount에 update하기 -->
+<update id="updateCommentCount">
+	update board b set commentCount = (select count(bno) from comment where bno = b.bno); 
+</update>
+<update id="updateFileCount">
+update board b set fileCount = (select count(bno) from file where bno = b.bno); 
+</update>
+
 <!--  selcet*from board where isDel='N' and (..or..or..) -->
  <!-- 동시 검색을 위해서 배열과 반복문 사용 --> <!-- title,content,writer만 검색할거면 필요없다 -->
  <!--suffixOverrides="or" 뒤에 있는 or을 지워줘 라는 뜻 -->

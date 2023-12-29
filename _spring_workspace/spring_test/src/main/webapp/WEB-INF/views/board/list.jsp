@@ -43,6 +43,8 @@
       <th scope="col">writer</th>
       <th scope="col">reg_date</th>
       <th scope="col">read_count</th>
+      <th scope="col">comment</th>
+      <th scope="col">file</th>
     </tr>
   </thead>
   <c:forEach items="${list }" var="bvo">
@@ -53,6 +55,8 @@
       <td>${bvo.writer}</td>
       <td>${bvo.reg_date}</td>
       <td>${bvo.read_count}</td>
+      <td>${bvo.commentCount}</td>
+      <td>${bvo.fileCount}</td>
     </tr>
     </c:forEach>
   </tbody>

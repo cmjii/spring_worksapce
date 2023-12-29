@@ -6,7 +6,7 @@
 <div class="container-md">
 <h1>수정</h1> <br>
 <c:set value="${boardDTO.bvo }" var="bvo" />
-<form action="/board/modify" method="post">
+<form action="/board/modify" method="post" enctype="multipart/form-data">
 <div class="input-group mb-3">
   <span class="input-group-text" id="basic-addon1">번호</span>
   <input type="text" class="form-control" name="bno" value="${bvo.bno }" readonly="readonly">
@@ -25,8 +25,7 @@
   <span class="input-group-text">내용</span>
   <textarea class="form-control" name="content">"${bvo.content}"</textarea>
 </div>
-</form>
-</div>
+
 <c:set value="${boardDTO.flist }" var="flist"></c:set>
 <div>
 	<ul>
@@ -77,6 +76,8 @@
 <a href="/board/list"><button type="button" class="btn btn-warning">게시판</button></a>
 <a href="/board/remove?bno=${bvo.bno }"><button type="button" class="btn btn-warning">삭제</button></a>
 <button type="submit" class="btn btn-success">수정</button>
+</form>
+</div>
 
 <script>
 const uuid = `<c:out value="${fvo.uuid}" />`;

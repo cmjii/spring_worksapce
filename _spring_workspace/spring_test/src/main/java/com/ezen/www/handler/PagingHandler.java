@@ -16,6 +16,8 @@ public class PagingHandler {
 	private int endPage;
 	private boolean prev, next;
 	private int totalCount;
+	private int commentCount;
+	private int fileCount;
 	private PagingVO pgvo;
 	
 	public PagingHandler(PagingVO pgvo, int totalCount) {

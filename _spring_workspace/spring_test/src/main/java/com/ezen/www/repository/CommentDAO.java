@@ -2,6 +2,7 @@ package com.ezen.www.repository;
 
 import java.util.List;
 
+import com.ezen.www.domain.BoardVO;
 import com.ezen.www.domain.CommentVO;
 
 public interface CommentDAO {
@@ -13,5 +14,7 @@ public interface CommentDAO {
 	int delete(int cno);
 
 	int update(CommentVO cvo);
+
+	int getcount(CommentVO cvo);
 
 }

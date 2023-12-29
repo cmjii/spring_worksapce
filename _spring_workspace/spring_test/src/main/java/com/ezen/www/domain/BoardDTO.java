@@ -17,5 +17,5 @@ public class BoardDTO {
 
 	private BoardVO bvo;
 	private List<FileVO> flist; //두번째 글자가 대문자면 jsp가 인식 불가
-	
+
 }

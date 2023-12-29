@@ -9,6 +9,7 @@
 	insert into comment(bno,writer,content) values(#{bno},#{writer},#{content})
 </insert>
 
+
 <select id="getList" resultType="com.ezen.www.domain.CommentVO">
 	select * from comment where bno = #{bno}
 </select>
@@ -20,5 +21,9 @@
 <update id="update">
 	update comment set content = #{content}, reg_date = now() where cno = #{cno}
 </update>
+
+<select id="getcount" resultType="int">
+	select count(cno) from comment where bno=#{bno}
+</select>
 
 </mapper>

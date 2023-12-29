@@ -18,5 +18,7 @@ public class CommentVO {
 	private String writer;
 	private String content;
 	private String reg_date;
+	private int commentCount;
+	private int fileCount;
 	
 }

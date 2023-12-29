@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.ezen.www.domain.BoardDTO;
 import com.ezen.www.domain.BoardVO;
+import com.ezen.www.domain.CommentVO;
 import com.ezen.www.domain.FileVO;
 import com.ezen.www.domain.PagingVO;
 import com.ezen.www.repository.BoardDAO;
+import com.ezen.www.repository.CommentDAO;
 import com.ezen.www.repository.FileDAO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +25,8 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDAO bdao;
 	@Inject
 	private FileDAO fdao;
-
+	@Inject
+	private CommentDAO cdao;
 	@Override
 	public int register(BoardDTO bdto) {
 		log.info("register service impl");
@@ -52,6 +55,14 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<BoardVO> getList(PagingVO pgvo) {
 		// TODO Auto-generated method stub
+		int isok = bdao.updateCommentCount();
+		if(isok== 0) {
+			log.info("updateCommentCoount error");
+		}
+		int isokf = bdao.updateFileCount();
+		if(isok== 0) {
+			log.info("updateFileCount error");
+		}
 		return bdao.selectList(pgvo);
 	}
 
@@ -67,8 +78,19 @@ public class BoardServiceImpl implements BoardService{
 
 
 	@Override
-	public void update(BoardVO bvo) {
-		bdao.update(bvo);
+	public void update(BoardDTO bdto) {
+		int isok = bdao.update(bdto.getBvo());
+		if(bdto.getFlist()==null) {
+			isok *=1; //이미 처리 된것과 같은 효과 (리턴으로 빼버려도 됨)
+		}else {
+			if(isok>0 && bdto.getFlist().size()>0) {
+				int bno = bdto.getBvo().getBno();
+				for(FileVO fvo : bdto.getFlist()) {
+					fvo.setBno(bno);
+					isok *= fdao.insertFile(fvo);
+				}
+			}
+		}
 
 	}
 

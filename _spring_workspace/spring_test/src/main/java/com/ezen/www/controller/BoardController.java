@@ -20,11 +20,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ezen.www.domain.BoardDTO;
 import com.ezen.www.domain.BoardVO;
+import com.ezen.www.domain.CommentVO;
 import com.ezen.www.domain.FileVO;
 import com.ezen.www.domain.PagingVO;
 import com.ezen.www.handler.FileHandler;
 import com.ezen.www.handler.PagingHandler;
 import com.ezen.www.service.BoardService;
+import com.ezen.www.service.CommentService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,6 +39,8 @@ public class BoardController {
 	private BoardService bsv;
 	@Inject
 	private FileHandler fhd;
+	@Inject
+	private CommentService csv;
 	
 	//경로와 리턴의 값이 같을 경우 생략가능
 	// /board/register => /board/register (매핑 되는 경로와 나가는 경로가 같다면 생략가능)
@@ -54,6 +58,7 @@ public class BoardController {
 		if(files[0].getSize()>0) { //file배열의 길이를 볼 경우엔 null이나 빈 객체가 들어와서 길이가 잡히는 경우가 있어 더 정확한 방법을 사용하는 것
 			flist = fhd.uploadFiles(files);
 			log.info("flist : "+flist);
+			//bvo.setFileCount(flist.size()); //파일 등록 전에 파일 개수를 bvo에 fileCount에 직접 set
 		}else {
 			log.info("file null");
 		}
@@ -68,7 +73,7 @@ public class BoardController {
 	
 	// /board/list => /board/list  void 처리해도 상관없음
 	@GetMapping("/list")
-	public String list(Model m, PagingVO pgvo) {
+	public String list(Model m, PagingVO pgvo, CommentVO cvo) {
 		log.info(">> pgvo : "+pgvo);
 		//리턴 타입은 목적지 경로에 대한 타입 (destpage가 리턴이라고 생각)
 	
@@ -91,9 +96,15 @@ public class BoardController {
 	}
 	
 	@PostMapping("/modify")
-	public String modify(BoardVO bvo, Model m) {
+	public String modify(BoardVO bvo, Model m, @RequestParam(name="files",required = false)MultipartFile[] files) {
 		log.info("bvo : "+bvo);
-		bsv.update(bvo);
+		List<FileVO> flist = null;
+		if(files[0].getSize()>0) {
+			flist = fhd.uploadFiles(files);
+		}
+		BoardDTO boardDTO = new BoardDTO(bvo,flist);
+		bsv.update(boardDTO);
+		
 		//m.addAttribute("bno",bvo.getBno()); -> 이 버전으로도 처리 가능
 		return "redirect:/board/detail?bno="+bvo.getBno(); 
 	}
@@ -109,7 +120,7 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
-	@DeleteMapping(value="/{uuidVal}",produces = MediaType.TEXT_PLAIN_VALUE)
+	@DeleteMapping(value="/{uuidVal}",produces = MediaType.TEXT_PLAIN_VALUE) //나가는 타입만 있다면 produces만 사용 (생략가능)
 	public ResponseEntity<String> delete(@PathVariable("uuidVal")String uuid){
 		log.info("uuid:" + uuid);
 		int isok = bsv.fileremove(uuid);
