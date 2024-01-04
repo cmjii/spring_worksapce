@@ -15,7 +15,7 @@ public class ServletConfiguration implements WebMvcConfigurer{
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// resources 경로 설정 / 나중에 파일 업로드 경로 설정 추가
-		registry.addResourceHandler("/resources/**").addResourceLocations("/resources");
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 
 	}
 
