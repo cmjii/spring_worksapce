@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.myweb.www.domain.BoardVO;
+import com.myweb.www.domain.PagingVO;
 import com.myweb.www.repository.BoardDAO;
 
 import lombok.RequiredArgsConstructor;
@@ -24,9 +25,9 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<BoardVO> getlist() {
+	public List<BoardVO> getlist(PagingVO pgvo) {
 		log.info("insert service ok");
-		return bdao.getlist();
+		return bdao.getlist(pgvo);
 	}
 
 	@Override

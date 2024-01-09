@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.myweb.www.domain.BoardVO;
+import com.myweb.www.domain.PagingVO;
 import com.myweb.www.service.BoardService;
 
 
@@ -37,8 +38,8 @@ public class BoardController {
 	}
 	
 	@GetMapping("/list")
-	public void list(Model m) {
-		List<BoardVO> list = bsv.getlist();
+	public void list(Model m, PagingVO pgvo) {
+		List<BoardVO> list = bsv.getlist(pgvo);
 		m.addAttribute("list", list);
 	}
 	
