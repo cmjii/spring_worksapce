@@ -1,0 +1,52 @@
+sts검색
+spring tools 4 for Eclipse 다운
+내 폴더에 압축풀기 (더블클릭하면됨)
+새폴더로 _spring_workspace 안에 _spring_thymeleaf폴더 생성
+lombok다운 받은 후 sts.4.exe에 update
+
+
+두가지 방법
+
+1.
+spring 홈페이지 들어가서 project 맨 밑 initializr
+lombok, spring web, spring Boot Dev Tools, Thymeleaf 제너레이트
+알집 다운됨
+
+file - new other - spring boot - 첫번째꺼 누르면 위에 방법
+			  - 두번째꺼 누르면
+
+name, demo 같은 이름으로 바꾼 뒤 1.에서 받은 것들 선택해서 next -> finish
+
+Help->eclipse marketplace->web검색->eclipse Enterprise java...->install->next--->i accept-->팝업창 selectAll->trust->restart
+th템플릿 다운받는건 자유 th자동완성
+
+--시작--
+ThymeleafApplication == 반드시 있어야함 얘가 실행하게 해주는것
+templates == webapp, views -> jsp ..
+static == webapp, resorces -> js,img ..
+application.properties == 환경설정 파일
+
+build.gradle == pom.xml
+(boot에서 mvn 사용할 경우 gradle(short)복사함)
+
+(프로젝트 받아올 때 마다(mvn도) (수시로) update == 프로젝트 -> gradle -> refresh)
+
+
+설정 -----
+인코딩
+java-compiler 17
+java-installed -> 기본 그대로 사용 가능 상관없음(jdk17다운받아 사용할 수도 있는데 환경변수 바꿔야함 (spring은 11이라 spring에러 날 수도 있음))
+서버도 내부에서 제공하기 때문에 톰캣 설정 필요 없음
+
+
+application.properties에 server.post=8089 == 스프링 서버 8089로 바꾸거랑 같음
+
+html폴더 만들면 <html xmlns:th="http://www.thymleaf.org">로 수정 (==namespace)
+
+
+
+
+
+
+
+

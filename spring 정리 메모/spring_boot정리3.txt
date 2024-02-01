@@ -1,0 +1,21 @@
+file 추가
+- file DB 추가
+- 파일 환경설정
+D:\_myProject\_java\_fileUpload
+- 경로 설정
+- max-size
+- max-request-size
+
+tika1.20 / thumbnailator 0.4.8
+
+
+
+create table file(
+uuid varchar(256) not null,
+save_dir varchar(256) not null,
+file_name varchar(256) not null,
+file_type int (1) default 0,
+bno big int not null,
+file_size bigint not null,
+reg_at datetime default now(),
+primary kry(uuid));

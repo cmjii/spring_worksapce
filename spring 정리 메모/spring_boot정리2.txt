@@ -1,0 +1,67 @@
+boot_worksapce안에 boot_Mybatis생성
+부트 설정 (lombok, spring boot DevTools, Spring Data JDBC, Mybatis Framework, Thymeleaf, Spring Web)
+기본 설정 : 인코딩, 컴파일러 17, 콘솔 백만
+
+build.gradle에  mvn 추가
+Spring Boot Configuration Processor » 3.2.2
+MySQL Connector Java » 8.0.28
+Log4Jdbc Log4j2 JDBC 4 1 » 1.16
+
+
+DB 생성 
+create database bootdb;
+## use bootdb;
+-- User 권한 부여
+grant all privileges on bootdb.* to 'mywebUser'@'localhost' with grant option;
+flush privileges;
+mysql -umywebUser -pmysql
+mysql> show databases;
+use bootdb;
+
+application.properties 설정 추가
+server.port=8089
+
+spring.datasource.driver-class-name=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+spring.datasource.jdbc-url=jdbc:log4jdbc:mysql://localhost:3306/bootdb?characterEncoding=UTF-8&serverTimezone=UTC
+spring.datasource.username=mywebUser
+spring.datasource.password=mysql
+
+mybatis.mapper-locations=classpath:/mappers/**/*Mapper.xml
+mybatis.configuration.map-underscore-to-camel-case=true
+
+# 타임리프 캐싱 끄기, 새로고침 반영되게 설정.
+spring.thymeleaf.cache=false
+
+
+
+패키지 생성
+컨트롤러, 콘피그, 도메인, 레포지토리, 서비스
+템플릿 쪽에 템플릿.board
+templates안에 index.html, layout.html 생성
+
+
+
+부트스트랩 다운로드 사용 방법
+부트스트랩 다운로드 압축 풀기
+static폴더 안에 dist폴더 생성 후 안에 css, js폴더 만들기
+css에는 bootstrap.min.css . bootstrap.min.css.map
+js에는 bootstrap.bundle.js , bootstrap.bundle.js.map , bootstrap.min.js, bootstrap.min.js.map
+
+
+config패키지 안에 DatabaseConfig클래스 생성
+내용은 깃허브 보기
+
+mapper패키지 안에 mybatis-config.xml설정 mybatis에서 복사
+typealias는 하고싶으면 하고 싫으면 안해도 ㄱㅊ
+
+리소스 폴더에 text파일 생성 log4jdbc 설정 (구글링해서 복사)
+
+DB
+CREATE TABLE BOARD(
+BNO BIGINT AUTO_INCREMENT,
+TITLE VARCHAR(200) NOT NULL,
+WRITER VARCHAR(200) NOT NULL,
+CONTENT TEXT NOT NULL,
+REG_AT DATETIME DEFAULT NOW(),
+MOD_AT DATETIME DEFAULT NOW(),
+PRIMARY KEY(BNO));
