@@ -1,0 +1,58 @@
+Sweepert (청소부)
+DB의 파일명과, 폴더 안에 있는 파일을 비교하여 일치하지 않는 값이 있다면 삭제 (폴더에서 삭제)
+
+스케줄러 기능.
+해당 스케줄에 맞춰 자동으로 실행
+
+pom.xml
+--quartz-scheduler--
+- quartz 2.3.2
+- quartz-jobs 2.3.2
+
+
+
+-------------------------
+
+
+Security
+
+member
+- 회원가입 => db에 저장
+
+- 로그인 (아이디 / pass => db 일치하는 값이 있는지 확인 => 로그인 진행 (session 저장)
+- 로그아웃 (session 끊기)
+
+
+- User 권한
+-(admin) -> ROLE_ADMIN
+-manager
+-(user) -> ROLE_USER 
+Role 명령어 -> (권한 확인용)
+
+
+- Security pom.xml 설정
+spring-security-core5.5.3
+spring-security-web5.5.3
+spring-security-config5.5.3
+spring-security-taglibs5.5.3
+
+
+---------------------------
+테이블 생성
+create table member(
+email varchar(100) not null,
+pwd varchar(1000) not null,
+nick_name varchar(100) not null,
+reg_at datetime default now(),
+last_login datetime default null,
+primary key (email));
+
+
+권한 테이블은 기본키 설정 없음 멤버 하위 단위임
+create table auth_member(
+email varchar(100) not null,
+auth varchar(50) not null );
+
+alter table auth_member add constraint fk_auth foreign key (email) references member(email);
+
+
